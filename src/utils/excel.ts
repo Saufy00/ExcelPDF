@@ -3,11 +3,6 @@ import ExcelJS from 'exceljs';
 export interface ExcelSheet {
     name: string;
     html: string;
-import ExcelJS from 'exceljs';
-
-export interface ExcelSheet {
-    name: string;
-    html: string;
     data: any[][];
 }
 

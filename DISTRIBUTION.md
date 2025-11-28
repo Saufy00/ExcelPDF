@@ -1,95 +1,43 @@
 # ExcelPDF Distribution Guide
 
-## What's Being Built
+## Automated Releases (Recommended)
 
-Running `npm run electron:build` creates a **Windows installer** that users can download and install.
+The project is configured with **GitHub Actions** to automatically build and release the app.
 
-### Configuration Details
+### How to Release a New Version
 
-The app is configured to create:
-- **Installer Type**: NSIS (Nullsoft Scriptable Install System)
-- **Output Folder**: `release/`
-- **Installer Name**: `ExcelPDF-Setup-0.0.0.exe`
+1. **Commit your changes**:
+   ```bash
+   git add .
+   git commit -m "feat: Add cool new feature"
+   git push origin main
+   ```
 
-### What Users Get
+2. **Create and push a version tag**:
+   ```bash
+   # Create tag (e.g., v1.0.1)
+   git tag v1.0.1
 
-When they run the installer:
-- ✅ Desktop shortcut
-- ✅ Start menu shortcut  
-- ✅ Choose installation directory
-- ✅ Standalone app (no Node.js required)
+   # Push tag to trigger release
+   git push origin v1.0.1
+   ```
+
+3. **Wait for GitHub Actions**:
+   - Go to the [Actions tab](https://github.com/Saufy00/ExcelPDF/actions) to watch the build.
+   - Once complete, go to the **Releases** tab.
+   - Your new version will be there with the `.exe` installer ready for download!
 
 ---
 
-## Distribution Steps
+## Manual Build (Local)
 
-### 1. Build the Installer
+If you need to build locally (requires Node.js & Rust/C++ build tools):
+
 ```bash
 npm run electron:build
 ```
+*Note: This may fail if your local environment lacks necessary build tools. The automated GitHub method is preferred.*
 
-This will:
-1. Compile TypeScript
-2. Build with Vite
-3. Package with electron-builder
-4. Create installer in `release/` folder
+## Installation
 
-### 2. Find Your Installer
-
-After build completes, look for:
-```
-release/ExcelPDF-Setup-0.0.0.exe
-```
-
-### 3. Distribute
-
-**Option A: GitHub Releases**
-1. Go to your GitHub repo
-2. Click "Releases" → "Create a new release"
-3. Upload `ExcelPDF-Setup-0.0.0.exe`
-4. Publish release
-
-**Option B: Direct Share**
-- Email the `.exe` file
-- Share via cloud storage (Dropbox, Google Drive, etc.)
-
-**Option C: Your Own Website**
-- Host the `.exe` on your server
-- Provide download link
-
----
-
-## User Installation
-
-### For End Users:
-1. Download `ExcelPDF-Setup-0.0.0.exe`
-2. Double-click to run installer
-3. Choose installation folder
-4. Click "Install"
-5. Launch ExcelPDF from desktop/start menu
-
-**No Node.js, npm, or terminal needed!**
-
----
-
-## Updating Version
-
-To change the version number:
-
-Edit `package.json`:
-```json
-{
-  "version": "1.0.0"
-}
-```
-
-Next build will create: `ExcelPDF-Setup-1.0.0.exe`
-
----
-
-## File Sizes (Approximate)
-
-- Installer: 150-250 MB (includes Electron runtime + your app)
-- Installed app: 300-400 MB
-
-This is normal for Electron apps (similar to VS Code, Slack, Discord).
+Users simply download the `.exe` file from the Releases page and run it. No other software is required.

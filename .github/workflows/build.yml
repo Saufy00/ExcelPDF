@@ -1,14 +1,16 @@
-name: Build Electron App
+name: Build and Release
 
 on:
   push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+    tags:
+      - 'v*'
 
 jobs:
-  build:
+  release:
     runs-on: windows-latest
+    
+    permissions:
+      contents: write
 
     steps:
     - uses: actions/checkout@v4
@@ -28,8 +30,12 @@ jobs:
     - name: Build Electron App
       run: npx electron-builder --win --publish never
 
-    - name: Upload Installer
-      uses: actions/upload-artifact@v4
+    - name: Create Release
+      uses: softprops/action-gh-release@v1
       with:
-        name: ExcelPDF-Installer
-        path: release/*.exe
+        files: release/*.exe
+        draft: false
+        prerelease: false
+        generate_release_notes: true
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -3,6 +3,11 @@ import ExcelJS from 'exceljs';
 export interface ExcelSheet {
     name: string;
     html: string;
+import ExcelJS from 'exceljs';
+
+export interface ExcelSheet {
+    name: string;
+    html: string;
     data: any[][];
 }
 
@@ -25,10 +30,10 @@ function excelColorToHex(color: any): string {
 function generateStyledHTML(worksheet: ExcelJS.Worksheet, sheetName: string): string {
     let html = `<table id="sheet-${sheetName.replace(/[^a-zA-Z0-9]/g, '-')}">`;
 
-    worksheet.eachRow((row) => {
+    worksheet.eachRow((row: ExcelJS.Row) => {
         html += '<tr>';
 
-        row.eachCell({ includeEmpty: true }, (cell) => {
+        row.eachCell({ includeEmpty: true }, (cell: ExcelJS.Cell) => {
             const cellValue = cell.value ? String(cell.value) : '';
             const styles: string[] = [];
 
@@ -93,7 +98,7 @@ export const parseExcel = async (file: File): Promise<ExcelSheet[]> => {
 
     const sheets: ExcelSheet[] = [];
 
-    workbook.eachSheet((worksheet) => {
+    workbook.eachSheet((worksheet: ExcelJS.Worksheet) => {
         const name = worksheet.name;
 
         // Generate styled HTML
@@ -101,9 +106,9 @@ export const parseExcel = async (file: File): Promise<ExcelSheet[]> => {
 
         // Generate raw data for metadata
         const data: any[][] = [];
-        worksheet.eachRow((row) => {
+        worksheet.eachRow((row: ExcelJS.Row) => {
             const rowData: any[] = [];
-            row.eachCell({ includeEmpty: true }, (cell) => {
+            row.eachCell({ includeEmpty: true }, (cell: ExcelJS.Cell) => {
                 rowData.push(cell.value || '');
             });
             data.push(rowData);

@@ -13,12 +13,14 @@ function createWindow() {
         show: true, // Force show window
     });
 
-    // Always load from localhost in dev mode
-    const devServerUrl = 'http://localhost:5173';
-
-    console.log('Loading URL:', devServerUrl);
-    mainWindow.loadURL(devServerUrl);
-    mainWindow.webContents.openDevTools();
+    // In development, load from Vite dev server
+    if (process.env.VITE_DEV_SERVER_URL) {
+        mainWindow.loadURL(process.env.VITE_DEV_SERVER_URL);
+        mainWindow.webContents.openDevTools();
+    } else {
+        // In production, load the built files
+        mainWindow.loadFile(path.join(__dirname, '../dist/index.html'));
+    }
 
     mainWindow.on('ready-to-show', () => {
         mainWindow.show();
